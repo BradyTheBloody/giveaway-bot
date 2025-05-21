@@ -9,7 +9,7 @@ participants = set()
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Hello! Use /participate to participate at the giveaway!")
 
-async def partecipo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def participate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.message.from_user.full_name
     participants.add(user)
     await update.message.reply_text(f"{user}, you have been registered!")
