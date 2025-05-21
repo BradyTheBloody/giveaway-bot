@@ -2,6 +2,8 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import random
 
+ADMIN_ID = 566825247
+
 participants = set()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -13,12 +15,22 @@ async def partecipo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"{user}, you have been registered!")
 
 async def lista(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.message.from_user.id
+    if user_id != ADMIN_ID:
+        await update.message.reply_text("❌ You are not authorized to see the list of participants.")
+        return
+    
     if participants:
         await update.message.reply_text("Participants:\n" + "\n".join(participants))
     else:
         await update.message.reply_text("No one yet.")
 
 async def estrai(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.message.from_user.id
+    if user_id != ADMIN_ID:
+        await update.message.reply_text("❌ You are not authorized to use this command.")
+        return
+
     if participants:
         vincitore = random.choice(list(participants))
         await update.message.reply_text(f"🎉 The winner is: {vincitore} 🎉")
